@@ -111,10 +111,10 @@ function! FormatLine(lnum)
         return
     endif
 
-    if match(g:newl, "/*") != -1
+    if match(g:newl, '\/\*') != -1
         return
     endif
-    if match(g:newl, "*/") != -1
+    if match(g:newl, '\*\/') != -1
         return
     endif
 
