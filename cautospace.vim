@@ -72,6 +72,8 @@ function ReplaceSymbol()
     let g:newl = substitute(g:newl, '\s*%\s*=\s*', ' %= ', 'g')
     let g:newl = substitute(g:newl, '\s*&\s*=\s*', ' \&= ', 'g')
 
+    let g:newl = substitute(g:newl, '\s*&\s*\*\s*', ' */ ', 'g')
+
     let g:newl = substitute(g:newl, '\s*\/\s*\/\s*', '// ', 'g')
 
     let g:newl = substitute(g:newl, '\s*&\s*&\s*', ' \&\& ', 'g')
@@ -105,9 +107,17 @@ function! FormatLine(lnum)
     if g:newl == '' || match(g:newl, '"') != -1
         return
     endif
-    if g:newl == '' || match(g:newl, "'") != -1
+    if  match(g:newl, "'") != -1
         return
     endif
+
+    if match(g:newl, "/*") != -1
+        return
+    endif
+    if match(g:newl, "*/") != -1
+        return
+    endif
+
     call inputsave()
     call ReplaceSymbol()
     call ReplaceIf()
@@ -147,7 +157,7 @@ endfunction
 
 "Original map for {<CR is : @{<CR>}<Esc>O
 let fileext=expand('%:e')
-if fileext== "c" || fileext== "cpp"
+if fileext == "c" || fileext == "cpp" || fileext == "h" || fileext == "hpp"
     inoremap <buffer> <CR> <Esc>:call EnterEnter()<CR>
     "inoremap <buffer> {<CR> <ESC>:call EnterBrace()<CR>
     "~/.vim/bundle/YouCompleteMe/autoload/youcompleteme.vim
