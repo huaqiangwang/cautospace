@@ -58,7 +58,12 @@ function ReplaceSymbol()
     let g:newl = substitute(g:newl, '\s*<\s*', ' < ', 'g')
     let g:newl = substitute(g:newl, '\s*,\s*', ', ', 'g')
     let g:newl = substitute(g:newl, '\s*;\s*', '; ', 'g')
+
+    " Remove blank spaces at the tail
     let g:newl = substitute(g:newl, '\s*;\s*$', ';', 'g')
+    let g:newl = substitute(g:newl, '\s*,\s*$', ',', 'g')
+    let g:newl = substitute(g:newl, '\s*>\s*$', '>', 'g')
+    let g:newl = substitute(g:newl, '\s*<\s*$', '<', 'g')
 
     let g:newl = substitute(g:newl, '\s*=\s*=\s*', ' == ', 'g')
     let g:newl = substitute(g:newl, '\s*\*\s*=\s*', ' *= ', 'g')
@@ -86,10 +91,10 @@ function ReplaceSymbol()
 endfunction
 
 function ReplaceIf()
-    let g:newl = substitute(g:newl, '\s*if\s*', 'if ', 'g')
-    let g:newl = substitute(g:newl, '\s*while\s*', 'while ', 'g')
-    let g:newl = substitute(g:newl, '\s*for\s*', 'for ', 'g')
-    let g:newl = substitute(g:newl, '\s*switch\s*', 'for ', 'g')
+    let g:newl = substitute(g:newl, '\s.*if\s*', 'if ', 'g')
+    let g:newl = substitute(g:newl, '\s.*while\s*', 'while ', 'g')
+    let g:newl = substitute(g:newl, '\s.*for\s*', 'for ', 'g')
+    let g:newl = substitute(g:newl, '\s.*switch\s*', 'switch ', 'g')
 endfunction
 
 function ReplaceBrace()
@@ -159,7 +164,7 @@ endfunction
 let fileext=expand('%:e')
 if fileext == "c" || fileext == "cpp" || fileext == "h" || fileext == "hpp"
     inoremap <buffer> <CR> <Esc>:call EnterEnter()<CR>
-    "inoremap <buffer> {<CR> <ESC>:call EnterBrace()<CR>
+    inoremap <buffer> {<CR> <ESC>:call EnterBrace()<CR>
     "~/.vim/bundle/YouCompleteMe/autoload/youcompleteme.vim
     noremap <F8> <ESC>:call FormatLineCur()<CR>
 endif
