@@ -60,10 +60,12 @@ function ReplaceSymbol()
     let g:newl = substitute(g:newl, '\s*;\s*', '; ', 'g')
 
     " Remove blank spaces at the tail
-    let g:newl = substitute(g:newl, '\s*;\s*$', ';', 'g')
-    let g:newl = substitute(g:newl, '\s*,\s*$', ',', 'g')
-    let g:newl = substitute(g:newl, '\s*>\s*$', '>', 'g')
-    let g:newl = substitute(g:newl, '\s*<\s*$', '<', 'g')
+    " Help pattern
+    " for ^v ^m ^M ^V
+    let g:newl = substitute(g:newl, '\;\s*$', ';', 'g')
+    let g:newl = substitute(g:newl, '\,\s*$', ',', 'g')
+    let g:newl = substitute(g:newl, '\V>\s\*\$', '>', 'g')
+    let g:newl = substitute(g:newl, '\V<\s\*\$', '<', 'g')
 
     let g:newl = substitute(g:newl, '\s*=\s*=\s*', ' == ', 'g')
     let g:newl = substitute(g:newl, '\s*\*\s*=\s*', ' *= ', 'g')
@@ -91,10 +93,19 @@ function ReplaceSymbol()
 endfunction
 
 function ReplaceIf()
-    let g:newl = substitute(g:newl, '\s.*if\s*', 'if ', 'g')
-    let g:newl = substitute(g:newl, '\s.*while\s*', 'while ', 'g')
-    let g:newl = substitute(g:newl, '\s.*for\s*', 'for ', 'g')
-    let g:newl = substitute(g:newl, '\s.*switch\s*', 'switch ', 'g')
+    " echomsg
+    if  match(g:newl,     '\m^\s*if\s*\V(\.\*') != -1
+        let g:newl = substitute(g:newl, '\s*if\s*', 'if ', 'g')
+    endif
+    if  match(g:newl, '\m^\s*whiles*\V(\.\*') != -1
+        let g:newl = substitute(g:newl, '\s*while\s*', 'while ', 'g')
+    endif
+    if  match(g:newl, '\m^\s*for\s*\V(\.\*') != -1
+        let g:newl = substitute(g:newl, '\s*for\s*', 'for ', 'g')
+    endif
+    if  match(g:newl, '\m^\s*switch\s*\V(\.\*') != -1
+        let g:newl = substitute(g:newl, '\s*switch\s*', 'switch ', 'g')
+    endif
 endfunction
 
 function ReplaceBrace()
